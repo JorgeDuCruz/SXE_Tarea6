@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  # Servicio para MySQL
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-prestashop
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: prestashop
+      MYSQL_USER: prestashop_user
+      MYSQL_PASSWORD: example_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/dam/Documentos/SXE_Tarea6/Mysql_data:/var/lib/mysql
+
+  # Servicio para PrestaShop
+  prestashop:
+    image: prestashop/prestashop:latest
+    container_name: prestashop
+    environment:
+      DB_SERVER: mysql
+      DB_NAME: prestashop
+      DB_USER: prestashop_user
+      DB_PASSWORD: example_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  # Servicio para phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: example_root_password
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql

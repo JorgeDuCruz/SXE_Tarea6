@@ -8,12 +8,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
-      - ./home/dam/Documentos/SXE_Tarea6/Mysql_data:/var/lib/mysql
+      - .Mysql_data:/var/lib/mysql
 
-  # Servicio para PrestaShop
+    # Servicio para PrestaShop
   prestashop:
     image: prestashop/prestashop:latest
     container_name: prestashop
@@ -33,7 +31,6 @@ services:
     container_name: phpmyadmin
     environment:
       PMA_HOST: ${PMA_HOST}
-      PMA_PORT: ${PMA_PORT}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:80"

@@ -8,22 +8,40 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
     volumes:
-      - .Mysql_data:/var/lib/mysql
+        - Mysql_data:/var/lib/mysql  # Persistencia de datos, no se debe borrar
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
-    # Servicio para PrestaShop
+  # Servicio para PrestaShop
   prestashop:
     image: prestashop/prestashop:latest
     container_name: prestashop
     environment:
+      PS_LANGUAGE: ${PS_LANGUAGE}
+      PS_COUNTRY: ${PS_COUNTRY}
       DB_SERVER: ${DB_SERVER}
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWD: ${DB_PASSWD}
+      PS_INSTALL_AUTO: ${PS_INSTALL_AUTO}
+      PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN}
+      PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL}
+      ADMIN_MAIL: ${ADMIN_MAIL}
+      ADMIN_PASSWD: ${ADMIN_PASSWD}
+
     ports:
       - "8080:80"
+    volumes:
+      - Prestashop:/var/www/html  # Persistencia de datos, no se debe borrar
     depends_on:
-      - mysql
+        mysql:
+          condition: service_healthy
 
   # Servicio para phpMyAdmin
   phpmyadmin:
@@ -31,8 +49,14 @@ services:
     container_name: phpmyadmin
     environment:
       PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:80"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+
+volumes:
+  Mysql_data:
+  Prestashop:

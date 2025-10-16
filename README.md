@@ -49,6 +49,8 @@ services:
     container_name: phpmyadmin
     restart: unless-stopped
     environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:80"
@@ -86,5 +88,27 @@ DB_NAME=prestashop
 DB_USER=admin
 DB_PASSWD=admin
 
+PMA_HOST=mysql
+PMA_PORT=3306
+
 ```
 De esta manera, si los archivos están en la misma carpeta, el archivo de compose buscara los datos en este archivo que suele guardarse de manera local y no subirse a la nube.
+
+## Muestra de los servicios
+
+Una vez iniciemos los contenedores deberíamos poder acceder a las siguientes páginas desde un navegador.
+
+### Prestashop
+
+![InstalacionPrestashop.png](Imagenes/InstalacionPrestashop.png)
+
+Si es la primera vez que se ejecuten los contenedores necesitamos instalar primero prestashop con un asistente.
+Cuando veamos la pantalla de la imagen significará que ya podemos abrir la página normal de prestashop.
+
+![Prestashop.png](Imagenes/Prestashop.png)
+
+### PhpMyAdmin
+
+![PhpMyAdmin.png](Imagenes/PhpMyAdmin.png)
+
+En la página de PhpMyAdmin podemos acceder a todas las tablas que ha creado prestashop.

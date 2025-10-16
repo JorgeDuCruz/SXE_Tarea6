@@ -1,6 +1,6 @@
 services:
   # Servicio para MySQL
-  mysql:
+  db:
     image: mysql:8.0
     container_name: mysql-prestashop
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
     container_name: prestashop
     restart: unless-stopped
     environment:
-      DB_HOST: mysql
+      DB_HOST: db
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
@@ -34,7 +34,7 @@ services:
     volumes:
       - Prestashop:/var/www/html  # Persistencia de datos, no se debe borrar
     depends_on:
-        mysql:
+        db:
           condition: service_healthy
 
   # Servicio para phpMyAdmin
@@ -49,7 +49,7 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
 volumes:
   Mysql_data:

@@ -6,7 +6,7 @@ Primero debemos crear un archivo compose como el siguiente:
 ```
 services:
   # Servicio para MySQL
-  mysql:
+  db:
     image: mysql:8.0
     container_name: mysql-prestashop
     restart: unless-stopped
@@ -40,7 +40,7 @@ services:
     volumes:
       - Prestashop:/var/www/html  # Persistencia de datos, no se debe borrar
     depends_on:
-        mysql:
+        db:
           condition: service_healthy
 
   # Servicio para phpMyAdmin
@@ -55,7 +55,7 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
 volumes:
   Mysql_data:
@@ -90,7 +90,7 @@ DB_NAME=prestashop
 DB_USER=admin
 DB_PASSWD=admin
 
-PMA_HOST=mysql
+PMA_HOST=db
 PMA_PORT=3306
 
 ```

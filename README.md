@@ -63,7 +63,7 @@ volumes:
 
 
 ```
-Los detalles más importantes son: 
+Los detalles más importantes son:
 
 `volumes` que sirven para que haya persistencia de datos y se guarden los datos cuando borres los contenedores y los vuelvas a ejecutar.
 
@@ -76,6 +76,8 @@ Los detalles más importantes son:
 `healthcheck` que realiza una comprobación de que el contenedor se ejecutó de manera correcta.
 
 `depends on` que marca que el contenedor no se puede ejecutar hasta que otro contenedor funcione para evitar errores de conexión entre los contenedores.
+
+`container_name` que sirve para establecer un nombre específico a los contenedores.
 
 En este caso los parámetros del environment no están escritos directamente, esto es por seguridad. Las variables se escriben en un fichero .env de la siguiente manera:
 

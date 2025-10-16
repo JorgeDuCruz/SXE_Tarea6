@@ -1,3 +1,9 @@
+# Tarea 6
+
+## Archivo compose
+
+Primero debemos crear un archivo compose como el siguiente:
+```
 services:
   # Servicio para MySQL
   mysql:
@@ -52,3 +58,33 @@ services:
 volumes:
   Mysql_data:
   Prestashop:
+
+
+```
+Los detalles más importantes son: 
+
+`volumes` que sirven para que haya persistencia de datos y se guarden los datos cuando borres los contenedores y los vuelvas a ejecutar.
+
+`environment` que son las variables que usaran los contenedores para crearse.
+
+`image` que indica la imagen que usa cada contenedor.
+
+`ports` que indican mediante que puertos de la máquina anfitriona conectaran con qué contenedores.
+
+`healthcheck` que realiza una comprobación de que el contenedor se ejecutó de manera correcta.
+
+`depends on` que marca que el contenedor no se puede ejecutar hasta que otro contenedor funcione para evitar errores de conexión entre los contenedores.
+
+En este caso los parámetros del environment no están escritos directamente, esto es por seguridad. Las variables se escriben en un fichero .env de la siguiente manera:
+
+```MYSQL_ROOT_PASSWORD=admin
+MYSQL_DATABASE=prestashop
+MYSQL_USER=admin
+MYSQL_PASSWORD=admin
+
+DB_NAME=prestashop
+DB_USER=admin
+DB_PASSWD=admin
+
+```
+De esta manera, si los archivos están en la misma carpeta, el archivo de compose buscara los datos en este archivo que suele guardarse de manera local y no subirse a la nube.
